@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>就活キャリアタイプ診断 | 16Types</title>
+<meta property="og:title" content="就活キャリアタイプ診断 | 16Types">
+<meta property="og:description" content="20問でわかる！あなたの就活キャリアタイプ">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:#07080e;
+  --panel:#0d0f1e;
+  --panel2:#111428;
+  --border:#1c2240;
+  --border2:#252c55;
+  --blue:#1d4ed8;
+  --blue2:#2563eb;
+  --blue3:#3b82f6;
+  --blue-glow:rgba(59,130,246,0.35);
+  --purple:#6d28d9;
+  --purple2:#7c3aed;
+  --cyan:#22d3ee;
+  --cyan-glow:rgba(34,211,238,0.25);
+  --white:#f1f5f9;
+  --cream:#fefce8;
+  --ink:#0f172a;
+  --red:#ef4444;
+  --gold:#f59e0b;
+  --green:#10b981;
+  --muted:#475569;
+  --mid:#94a3b8;
+}
+
+html,body{background:var(--bg);color:var(--white);font-family:'Noto Sans JP','Hiragino Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* ── BACKGROUND ── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    repeating-conic-gradient(from 0deg at 50% 50%,transparent 0deg,transparent 3.8deg,rgba(29,78,216,0.045) 3.8deg,rgba(29,78,216,0.045) 4.2deg),
+    radial-gradient(ellipse 100% 60% at 50% 0%,rgba(29,78,216,0.18) 0%,transparent 65%),
+    radial-gradient(ellipse 80% 40% at 80% 100%,rgba(109,40,217,0.12) 0%,transparent 60%),
+    linear-gradient(180deg,#07080e 0%,#090b18 100%);
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(59,130,246,0.08) 1px,transparent 1px);
+  background-size:22px 22px;
+}
+
+/* ── SCREENS ── */
+.screen{display:none;position:relative;z-index:1;min-height:100vh;}
+.screen.active{display:block;}
+.wrap{max-width:500px;margin:0 auto;padding:0 14px 100px;}
+
+/* ── HEADER ── */
+.hdr{
+  position:sticky;top:0;z-index:300;
+  background:rgba(7,8,14,0.88);backdrop-filter:blur(12px);
+  border-bottom:2.5px solid var(--white);
+  padding:11px 18px;display:flex;align-items:center;justify-content:space-between;
+}
+.hdr-logo{font-size:14px;font-weight:900;letter-spacing:4px;color:var(--white);}
+.hdr-logo span{color:var(--cyan);}
+.hdr-tag{font-size:8px;color:var(--muted);letter-spacing:3px;font-weight:700;}
+
+/* ── MANGA PANELS ── */
+.panel{
+  background:var(--panel);
+  border:2.5px solid var(--white);
+  box-shadow:5px 5px 0 #000,inset 0 0 0 1px rgba(255,255,255,0.06);
+  margin-bottom:14px;padding:18px;position:relative;
+}
+.panel::after{content:'';position:absolute;inset:4px;border:1px solid rgba(255,255,255,0.08);pointer-events:none;}
+.panel-title{
+  font-size:9px;font-weight:900;letter-spacing:4px;
+  color:var(--cyan);text-transform:uppercase;margin-bottom:14px;
+  padding-bottom:9px;border-bottom:1px solid var(--border2);
+  text-shadow:0 0 12px var(--cyan-glow);
+}
+
+/* ── BUTTONS ── */
+.btn-main{
+  display:block;width:100%;padding:19px 24px;
+  background:var(--white);color:var(--ink);border:none;
+  font-family:'Noto Sans JP',sans-serif;font-size:1.05rem;font-weight:900;
+  letter-spacing:3px;cursor:pointer;text-align:center;
+  box-shadow:5px 5px 0 var(--blue3);transition:transform .1s,box-shadow .1s;
+  position:relative;overflow:hidden;
+}
+.btn-main::before{content:'▶';margin-right:10px;color:var(--blue);}
+.btn-main::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.15) 50%,transparent 100%);
+  transform:translateX(-100%);transition:transform .4s;
+}
+.btn-main:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--blue3);}
+.btn-main:hover::after{transform:translateX(100%);}
+.btn-main:active{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--blue3);}
+
+.btn-sub{
+  display:block;width:100%;padding:13px 20px;
+  background:transparent;color:var(--mid);
+  border:2px solid var(--border2);
+  font-family:'Noto Sans JP',sans-serif;font-size:.82rem;font-weight:700;
+  letter-spacing:2px;cursor:pointer;text-align:center;
+  transition:all .15s;margin-top:9px;
+}
+.btn-sub:hover{border-color:var(--blue3);color:var(--white);}
+
+/* ── TITLE SCREEN ── */
+.hero{
+  position:relative;overflow:hidden;
+  border-bottom:2.5px solid var(--white);margin-bottom:14px;
+  background:linear-gradient(180deg,#0a0c1e 0%,#0c0f22 60%,#100d20 100%);
+}
+.hero-lines{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;
+}
+.hero-lines::before{
+  content:'';position:absolute;inset:-200%;
+  background:repeating-conic-gradient(from 0deg at 50% 120%,transparent 0deg,transparent 2.6deg,rgba(255,255,255,0.03) 2.6deg,rgba(255,255,255,0.03) 3deg);
+  animation:spinBg 80s linear infinite;
+}
+.hero-lines::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 90% 60% at 50% 100%,rgba(59,130,246,0.22) 0%,transparent 60%);
+}
+@keyframes spinBg{to{transform:rotate(360deg);}}
+
+.hero-inner{position:relative;z-index:1;text-align:center;padding:44px 20px 36px;}
+
+.hero-eyebrow{
+  font-size:8px;font-weight:900;letter-spacing:7px;
+  color:var(--blue3);text-transform:uppercase;margin-bottom:20px;
+  text-shadow:0 0 20px var(--blue-glow);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';flex:1;max-width:50px;height:1px;background:var(--blue3);}
+
+.hero-title{
+  font-size:clamp(1.8rem,7vw,2.8rem);font-weight:900;
+  color:var(--white);line-height:1.25;letter-spacing:2px;
+  text-shadow:3px 3px 0 rgba(0,0,0,.9),0 0 40px rgba(59,130,246,.25);
+  margin-bottom:10px;
+}
+.hero-title em{color:var(--cyan);font-style:normal;display:block;font-size:.65em;letter-spacing:8px;margin-bottom:6px;}
+
+.hero-sub{
+  font-size:.78rem;color:var(--mid);font-weight:500;
+  letter-spacing:1.5px;margin-bottom:32px;line-height:1.7;
+}
+
+/* ── CHARACTER LINEUP ── */
+.char-lineup{
+  display:flex;justify-content:center;align-items:flex-end;
+  gap:4px;margin-bottom:28px;position:relative;
+}
+.char-lineup::before{
+  content:'';position:absolute;bottom:-2px;left:5%;right:5%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--blue3),var(--cyan),var(--purple2),var(--blue3),transparent);
+}
+.cl-item{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  animation:floatChar 3.5s ease-in-out infinite;
+  flex:1;max-width:110px;
+}
+.cl-item:nth-child(2){animation-delay:.7s;}
+.cl-item:nth-child(3){animation-delay:1.4s;}
+.cl-item:nth-child(4){animation-delay:2.1s;}
+@keyframes floatChar{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+
+.cl-item img{
+  width:100%;max-width:105px;height:105px;object-fit:contain;display:block;
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,.85)) drop-shadow(0 0 10px rgba(59,130,246,.3));
+  transition:transform .2s;
+}
+.cl-item:hover img{transform:scale(1.08);}
+.cl-label{
+  font-size:9px;font-weight:900;letter-spacing:2px;
+  color:var(--muted);text-transform:uppercase;
+}
+
+/* ── FEATURES ── */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.feat{
+  background:var(--panel2);border:2px solid var(--border2);
+  padding:16px 8px;text-align:center;position:relative;overflow:hidden;
+}
+.feat::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--blue3),var(--cyan));
+}
+.feat-icon{font-size:1.6rem;margin-bottom:7px;}
+.feat-text{font-size:8.5px;font-weight:700;color:var(--mid);line-height:1.6;letter-spacing:.5px;}
+
+/* ── TYPE OVERVIEW ── */
+.type-cat-head{
+  display:flex;align-items:center;gap:10px;margin-bottom:10px;
+}
+.type-cat-badge{
+  font-size:9px;font-weight:900;letter-spacing:3px;
+  padding:4px 12px;text-transform:uppercase;color:#fff;white-space:nowrap;
+}
+.type-cat-line{flex:1;height:1px;}
+
+.type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:16px;}
+.tc{
+  background:var(--panel2);border:1.5px solid var(--border);
+  padding:10px 5px;text-align:center;cursor:pointer;
+  transition:all .15s;position:relative;overflow:hidden;
+}
+.tc::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;opacity:0;transition:opacity .15s;}
+.tc:hover{border-color:var(--blue3);transform:translateY(-2px);}
+.tc:hover::before{opacity:1;}
+.tc img{
+  width:60px;height:60px;object-fit:contain;display:block;margin:0 auto 6px;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.7));
+  transition:transform .2s;
+}
+.tc:hover img{transform:scale(1.1);}
+.tc-code{font-size:11px;font-weight:900;letter-spacing:1px;}
+.tc-name{font-size:6.5px;color:var(--muted);margin-top:3px;line-height:1.4;font-weight:700;}
+
+/* ── INDUSTRY ── */
+.ind-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px;}
+.ind-chip{
+  padding:18px 12px;background:var(--panel2);border:2px solid var(--border2);
+  text-align:center;font-family:'Noto Sans JP',sans-serif;
+  font-size:13.5px;font-weight:700;color:var(--white);
+  cursor:pointer;transition:all .15s;position:relative;letter-spacing:.5px;
+}
+.ind-chip:hover{border-color:var(--blue3);}
+.ind-chip.sel{
+  background:rgba(29,78,216,.2);border-color:var(--blue3);color:var(--cyan);
+  box-shadow:0 0 14px rgba(59,130,246,.2);
+}
+.ind-chip.sel::after{content:'✓';position:absolute;top:5px;right:9px;font-size:10px;font-weight:900;color:var(--cyan);}
+
+/* ── QUIZ ── */
+.prog-wrap{height:8px;background:var(--panel2);border:1.5px solid var(--border2);position:relative;overflow:hidden;margin-bottom:7px;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue2),var(--cyan));transition:width .4s ease;box-shadow:0 0 10px var(--blue-glow);position:relative;}
+.prog-fill::after{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:#fff;opacity:.5;}
+.prog-meta{display:flex;justify-content:space-between;margin-bottom:16px;}
+.prog-num{font-size:10px;font-weight:900;color:var(--cyan);letter-spacing:2px;}
+.prog-axis{font-size:9px;color:var(--muted);}
+
+.q-card{
+  background:var(--panel);border:2.5px solid var(--white);
+  box-shadow:6px 6px 0 #000;margin-bottom:14px;
+  position:relative;overflow:hidden;
+}
+.q-card-speed{
+  position:absolute;inset:-200%;pointer-events:none;
+  background:repeating-conic-gradient(from 0deg at 50% 50%,transparent 0deg,transparent 5deg,rgba(59,130,246,.025) 5deg,rgba(59,130,246,.025) 5.5deg);
+  z-index:0;
+}
+.q-head{
+  background:var(--white);color:var(--ink);
+  padding:12px 18px;display:flex;align-items:center;gap:12px;
+  position:relative;z-index:1;
+}
+.q-badge{
+  font-size:.72rem;font-weight:900;background:var(--ink);color:var(--white);
+  padding:3px 11px;letter-spacing:2px;flex-shrink:0;
+}
+.q-axis-label{font-size:.68rem;font-weight:900;color:var(--blue);letter-spacing:1px;}
+
+.q-body{padding:24px 18px 20px;position:relative;z-index:1;}
+.q-text{
+  font-size:1rem;font-weight:700;line-height:1.85;color:var(--white);
+  text-align:center;margin-bottom:28px;
+  text-shadow:0 2px 6px rgba(0,0,0,.6);
+}
+
+/* Spectrum */
+.spec-wrap{margin-bottom:14px;}
+.spec-ends{display:flex;justify-content:space-between;gap:8px;margin-bottom:12px;}
+.spec-end{
+  flex:1;font-size:.7rem;font-weight:700;color:var(--mid);
+  line-height:1.5;padding:10px 12px;
+  background:var(--panel2);border:1.5px solid var(--border2);
+}
+.spec-end.left{border-left:3px solid var(--blue3);}
+.spec-end.right{border-right:3px solid var(--purple2);text-align:right;}
+
+.spec-track{
+  display:flex;align-items:center;justify-content:center;
+  gap:0;padding:14px 0;position:relative;
+}
+.spec-line-bg{
+  position:absolute;top:50%;left:10%;right:10%;
+  height:2px;background:var(--border2);transform:translateY(-50%);
+  z-index:0;
+}
+.spec-dot{
+  width:34px;height:34px;border:2.5px solid var(--border2);
+  background:var(--panel2);border-radius:50%;cursor:pointer;
+  transition:all .15s;flex-shrink:0;position:relative;z-index:1;
+  margin:0 10px;
+}
+.spec-dot:nth-child(2){width:28px;height:28px;margin:0 12px;}
+.spec-dot:nth-child(3){width:22px;height:22px;margin:0 14px;}
+.spec-dot:nth-child(4){width:28px;height:28px;margin:0 12px;}
+.spec-dot:nth-child(5){width:34px;height:34px;margin:0 10px;}
+.spec-dot:hover{border-color:var(--blue3);transform:scale(1.2);box-shadow:0 0 12px var(--blue-glow);}
+.spec-dot.sel{background:var(--blue3);border-color:var(--blue3);box-shadow:0 0 18px var(--blue-glow);transform:scale(1.25);}
+
+.spec-hint{display:flex;justify-content:space-between;font-size:8px;color:var(--muted);letter-spacing:1px;font-weight:700;padding:0 4px;}
+
+.back-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:transparent;border:2px solid var(--border2);color:var(--muted);
+  font-family:'Noto Sans JP',sans-serif;font-size:.78rem;font-weight:700;
+  padding:8px 16px;cursor:pointer;letter-spacing:1px;
+  transition:all .12s;margin-bottom:14px;
+}
+.back-btn:hover{border-color:var(--blue3);color:var(--white);}
+
+/* ── RESULT ── */
+.result-hero{
+  position:relative;overflow:hidden;
+  border-bottom:2.5px solid var(--white);margin-bottom:14px;
+  background:linear-gradient(180deg,#090b1e 0%,#0d0b22 50%,#080c1e 100%);
+  text-align:center;
+}
+.result-hero-lines{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;
+}
+.result-hero-lines::before{
+  content:'';position:absolute;inset:-200%;
+  background:repeating-conic-gradient(from 0deg at 50% 50%,transparent 0deg,transparent 3deg,rgba(59,130,246,.06) 3deg,rgba(59,130,246,.06) 3.5deg);
+  animation:spinBg 60s linear infinite;
+}
+.result-hero-lines::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%,rgba(109,40,217,.25) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 80% at 50% 0%,rgba(29,78,216,.2) 0%,transparent 50%);
+}
+.result-hero-inner{position:relative;z-index:1;padding:36px 20px 32px;}
+
+.result-announce{
+  font-size:8px;font-weight:900;letter-spacing:7px;color:var(--cyan);
+  text-transform:uppercase;margin-bottom:20px;
+  text-shadow:0 0 20px var(--cyan-glow);
+  animation:glowPulse 2s ease-in-out infinite;
+}
+@keyframes glowPulse{0%,100%{text-shadow:0 0 10px var(--cyan-glow);}50%{text-shadow:0 0 28px var(--cyan-glow),0 0 50px var(--cyan-glow);}}
+
+.result-char{
+  width:200px;height:200px;object-fit:contain;display:block;margin:0 auto 20px;
+  filter:drop-shadow(0 0 30px rgba(59,130,246,.45)) drop-shadow(0 12px 24px rgba(0,0,0,.9));
+  animation:floatChar 3s ease-in-out infinite;
+}
+.result-code{
+  font-size:3.8rem;font-weight:900;color:var(--white);letter-spacing:10px;
+  text-shadow:4px 4px 0 rgba(0,0,0,.9),0 0 40px rgba(59,130,246,.5);
+  margin-bottom:8px;line-height:1;
+}
+.result-name{
+  font-size:1.35rem;font-weight:900;color:var(--cyan);letter-spacing:2px;
+  text-shadow:0 0 20px var(--cyan-glow);margin-bottom:8px;
+}
+.result-tagline{font-size:.85rem;color:var(--mid);font-weight:500;line-height:1.7;margin-bottom:18px;}
+.result-kws{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;}
+.result-kw{
+  font-size:.68rem;font-weight:900;padding:5px 14px;
+  border:2px solid var(--blue3);color:var(--blue3);letter-spacing:2px;
+}
+
+/* Stat bars */
+.stat-row{margin-bottom:18px;}
+.stat-pair{display:flex;justify-content:space-between;margin-bottom:6px;}
+.stat-lbl{font-size:.68rem;font-weight:900;letter-spacing:2px;color:var(--mid);}
+.stat-track{height:8px;background:var(--panel2);border:1px solid var(--border2);position:relative;margin-bottom:4px;}
+.stat-center{position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(255,255,255,.25);}
+.stat-marker{position:absolute;top:50%;transform:translate(-50%,-50%);width:16px;height:16px;border:2.5px solid;border-radius:50%;}
+.stat-result{font-size:.65rem;text-align:right;font-weight:900;letter-spacing:1px;}
+
+/* Detail sections */
+.detail-sec{margin-bottom:14px;}
+.d-label{
+  font-size:.68rem;font-weight:900;letter-spacing:3px;
+  padding:4px 12px;display:inline-block;margin-bottom:8px;text-transform:uppercase;
+}
+.d-strength{background:var(--blue);color:#fff;}
+.d-comm{background:var(--purple);color:#fff;}
+.d-stress{background:#9f1239;color:#fff;}
+.d-growth{background:#064e3b;color:#fff;}
+.body-txt{font-size:.84rem;line-height:1.95;color:var(--mid);font-weight:400;}
+
+/* Job tags */
+.job-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
+.job-tag{
+  font-size:.75rem;font-weight:700;padding:6px 14px;
+  background:var(--panel2);border:2px solid var(--border2);color:var(--white);letter-spacing:1px;
+}
+
+/* Compat */
+.compat-item{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);}
+.compat-item:last-of-type{border-bottom:none;}
+.compat-item img{width:56px;height:56px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 3px 6px rgba(0,0,0,.7));}
+.compat-badge{font-size:.65rem;font-weight:900;padding:3px 9px;letter-spacing:2px;flex-shrink:0;}
+.compat-badge.good{background:var(--green);color:#fff;}
+.compat-badge.bad{background:var(--red);color:#fff;}
+.compat-info h4{font-size:.88rem;font-weight:700;color:var(--white);margin-bottom:3px;}
+.compat-info p{font-size:.7rem;color:var(--muted);}
+
+/* Company */
+.co-item{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid var(--border);}
+.co-item:last-child{border-bottom:none;}
+.co-rank{font-size:1.15rem;font-weight:900;color:var(--blue3);width:28px;text-align:center;flex-shrink:0;}
+.co-info h4{font-size:.9rem;font-weight:700;color:var(--white);}
+.co-info p{font-size:.7rem;color:var(--muted);margin-top:2px;}
+
+/* Share */
+.share-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;}
+.sh-btn{
+  padding:13px 8px;font-family:'Noto Sans JP',sans-serif;
+  font-size:.75rem;font-weight:900;cursor:pointer;border:none;
+  letter-spacing:1px;transition:all .1s;
+}
+.sh-btn:hover{transform:translateY(-2px);}
+.sh-x{background:#000;color:#fff;border:2px solid #333;}
+.sh-line{background:#06c755;color:#fff;}
+.sh-copy{background:var(--panel2);color:var(--white);border:2px solid var(--border2);}
+
+.retry-btn{
+  display:block;width:100%;padding:20px;
+  background:var(--white);color:var(--ink);border:none;
+  font-family:'Noto Sans JP',sans-serif;font-size:1rem;font-weight:900;
+  letter-spacing:3px;cursor:pointer;text-align:center;
+  box-shadow:5px 5px 0 var(--blue3);transition:all .1s;margin-top:14px;
+}
+.retry-btn::before{content:'▶';margin-right:10px;color:var(--blue);}
+.retry-btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--blue3);}
+
+.narration{
+  background:rgba(0,0,0,.55);border:1.5px solid var(--border2);
+  border-left:4px solid var(--blue3);
+  padding:14px 16px;font-size:.84rem;line-height:1.95;color:var(--mid);
+  margin-bottom:14px;font-weight:400;
+}
+
+/* Animations */
+.fade-in{animation:fadeUp .4s ease forwards;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.disabled{opacity:.3;pointer-events:none;}
+
+/* ── DIAGONAL SECTION BREAK ── */
+.section-break{
+  height:24px;margin:4px -14px 14px;
+  background:linear-gradient(135deg,var(--white) 0%,var(--white) 50%,transparent 50%);
+  opacity:.08;
+}
+
+@media(max-width:360px){
+  .spec-dot{width:28px;height:28px;margin:0 7px;}
+  .spec-dot:nth-child(2){width:23px;height:23px;}
+  .spec-dot:nth-child(3){width:18px;height:18px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div>
+    <div class="hdr-logo">Career<span>Type</span></div>
+    <div class="hdr-tag">就活キャリアタイプ診断</div>
+  </div>
+  <div style="font-size:8px;color:var(--muted);letter-spacing:3px;font-weight:900;">16 TYPES</div>
+</header>
+
+<!-- ══════════ TITLE SCREEN ══════════ -->
+<div id="screen-title" class="screen active">
+
+  <div class="hero">
+    <div class="hero-lines"></div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Your Career Type Awaits</div>
+      <h1 class="hero-title">
+        <em>16 Types</em>
+        就活キャリア<br>タイプ診断
+      </h1>
+      <p class="hero-sub">20問・約3分 ／ SPI性格検査ベースの本格診断<br>あなたのキャリアタイプと向いている企業がわかる</p>
+
+      <div class="char-lineup">
+        <div class="cl-item">
+          <img src="images/chars/a1.png" alt="A1">
+          <div class="cl-label">A系</div>
+        </div>
+        <div class="cl-item">
+          <img src="images/chars/b1.png" alt="B1">
+          <div class="cl-label">B系</div>
+        </div>
+        <div class="cl-item">
+          <img src="images/chars/c1.png" alt="C1">
+          <div class="cl-label">C系</div>
+        </div>
+        <div class="cl-item">
+          <img src="images/chars/d1.png" alt="D1">
+          <div class="cl-label">D系</div>
+        </div>
+      </div>
+
+      <button class="btn-main" onclick="showScreen('screen-industry')">診断をはじめる</button>
+      <button class="btn-sub" onclick="selectedIndustries=[];startQuiz()">業界を絞らずに始める</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="features">
+      <div class="feat">
+        <div class="feat-icon">📋</div>
+        <div class="feat-text">20問<br>約3分で完了</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">⚡</div>
+        <div class="feat-text">16タイプ<br>詳細診断</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🏢</div>
+        <div class="feat-text">おすすめ企業<br>レコメンド</div>
+      </div>
+    </div>
+
+    <!-- TYPE LIST -->
+    <div class="panel">
+      <div class="panel-title">全16タイプ一覧</div>
+
+      <!-- A -->
+      <div class="type-cat-head">
+        <div class="type-cat-badge" style="background:var(--blue2);">A — リーダー系</div>
+        <div class="type-cat-line" style="background:linear-gradient(90deg,var(--blue2),transparent);"></div>
+      </div>
+      <div class="type-grid" style="margin-bottom:18px;">
+        <div class="tc" style="--c:var(--blue3);">
+          <img src="images/chars/a1.png" alt="A1">
+          <div class="tc-code" style="color:var(--blue3);">A1</div>
+          <div class="tc-name">オンオフのエース</div>
+        </div>
+        <div class="tc">
+          <img src="images/chars/a2.png" alt="A2">
+          <div class="tc-code" style="color:var(--blue3);">A2</div>
+          <div class="tc-name">あったかリーダー</div>
+        </div>
+        <div class="tc">
+          <img src="images/chars/a3.png" alt="A3">
+          <div class="tc-code" style="color:var(--blue3);">A3</div>
+          <div class="tc-name">全力キャプテン</div>
+        </div>
+        <div class="tc">
+          <img src="images/chars/a4.png" alt="A4">
+          <div class="tc-code" style="color:var(--blue3);">A4</div>
+          <div class="tc-name">熱血プレイヤー</div>
+        </div>
+      </div>
+
+      <!-- B -->
+      <div class="type-cat-head">
+        <div class="type-cat-badge" style="background:var(--purple2);">B — サポート系</div>
+        <div class="type-cat-line" style="background:linear-gradient(90deg,var(--purple2),transparent);"></div>
+      </div>
+      <div class="type-grid" style="margin-bottom:18px;">
+        <div class="tc"><img src="images/chars/b1.png" alt="B1"><div class="tc-code" style="color:var(--purple2);">B1</div><div class="tc-name">ナチュラルケアリスト</div></div>
+        <div class="tc"><img src="images/chars/b2.png" alt="B2"><div class="tc-code" style="color:var(--purple2);">B2</div><div class="tc-name">やさしい調停者</div></div>
+        <div class="tc"><img src="images/chars/b3.png" alt="B3"><div class="tc-code" style="color:var(--purple2);">B3</div><div class="tc-name">縁の下の力持ち</div></div>
+        <div class="tc"><img src="images/chars/b4.png" alt="B4"><div class="tc-code" style="color:var(--purple2);">B4</div><div class="tc-name">誠実なフォロワー</div></div>
+      </div>
+
+      <!-- C -->
+      <div class="type-cat-head">
+        <div class="type-cat-badge" style="background:#0f766e;">C — クリエイター系</div>
+        <div class="type-cat-line" style="background:linear-gradient(90deg,#0f766e,transparent);"></div>
+      </div>
+      <div class="type-grid" style="margin-bottom:18px;">
+        <div class="tc"><img src="images/chars/c1.png" alt="C1"><div class="tc-code" style="color:#2dd4bf;">C1</div><div class="tc-name">アイデアバスター</div></div>
+        <div class="tc"><img src="images/chars/c2.png" alt="C2"><div class="tc-code" style="color:#2dd4bf;">C2</div><div class="tc-name">品質追求型イノベーター</div></div>
+        <div class="tc"><img src="images/chars/c3.png" alt="C3"><div class="tc-code" style="color:#2dd4bf;">C3</div><div class="tc-name">爆進チェンジメーカー</div></div>
+        <div class="tc"><img src="images/chars/c4.png" alt="C4"><div class="tc-code" style="color:#2dd4bf;">C4</div><div class="tc-name">のめり込みビルダー</div></div>
+      </div>
+
+      <!-- D -->
+      <div class="type-cat-head">
+        <div class="type-cat-badge" style="background:#1e3a5f;">D — 分析系</div>
+        <div class="type-cat-line" style="background:linear-gradient(90deg,#1e3a5f,transparent);"></div>
+      </div>
+      <div class="type-grid">
+        <div class="tc"><img src="images/chars/d1.png" alt="D1"><div class="tc-code" style="color:var(--cyan);">D1</div><div class="tc-name">冷静なブレイン</div></div>
+        <div class="tc"><img src="images/chars/d2.png" alt="D2"><div class="tc-code" style="color:var(--cyan);">D2</div><div class="tc-name">きっちり参謀</div></div>
+        <div class="tc"><img src="images/chars/d3.png" alt="D3"><div class="tc-code" style="color:var(--cyan);">D3</div><div class="tc-name">鉄壁コントローラー</div></div>
+        <div class="tc"><img src="images/chars/d4.png" alt="D4"><div class="tc-code" style="color:var(--cyan);">D4</div><div class="tc-name">コツコツマイスター</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ INDUSTRY SCREEN ══════════ -->
+<div id="screen-industry" class="screen">
+  <div class="wrap">
+    <div style="height:18px"></div>
+    <div class="panel">
+      <div class="panel-title">Step 01 — 興味のある業界を選ぶ</div>
+      <p style="font-size:.8rem;color:var(--mid);margin-bottom:16px;line-height:1.7;font-weight:500;">
+        選んだ業界のおすすめ企業を診断結果に表示します。<br>複数選択OK。選ばなくても診断は進められます。
+      </p>
+      <div class="ind-grid">
+        <div class="ind-chip" data-ind="IT / Web" onclick="toggleInd(this)">IT / Web</div>
+        <div class="ind-chip" data-ind="広告 / メディア" onclick="toggleInd(this)">広告 / メディア</div>
+        <div class="ind-chip" data-ind="金融" onclick="toggleInd(this)">金融</div>
+        <div class="ind-chip" data-ind="コンサル" onclick="toggleInd(this)">コンサル</div>
+        <div class="ind-chip" data-ind="メーカー" onclick="toggleInd(this)">メーカー</div>
+        <div class="ind-chip" data-ind="商社" onclick="toggleInd(this)">商社</div>
+      </div>
+      <button id="ind-next" class="btn-main disabled" onclick="startQuiz()">選んだ業界で診断を始める</button>
+      <button class="btn-sub" onclick="selectedIndustries=[];startQuiz()">業界を絞らずに診断を始める</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ QUIZ SCREEN ══════════ -->
+<div id="screen-quiz" class="screen">
+  <div class="wrap">
+    <div style="height:16px"></div>
+    <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:5%"></div></div>
+    <div class="prog-meta">
+      <div class="prog-num" id="prog-text">Q1 / 20</div>
+      <div class="prog-axis" id="axis-text"></div>
+    </div>
+    <button class="back-btn" id="back-btn" onclick="goBack()" style="display:none;">◀ 前の質問に戻る</button>
+    <div class="q-card fade-in" id="q-card">
+      <div class="q-card-speed"></div>
+      <div class="q-head">
+        <div class="q-badge" id="q-num">Q1</div>
+        <div class="q-axis-label" id="q-axis"></div>
+      </div>
+      <div class="q-body">
+        <div class="q-text" id="q-text"></div>
+        <div class="spec-wrap">
+          <div class="spec-ends">
+            <div class="spec-end left" id="q-a"></div>
+            <div class="spec-end right" id="q-b"></div>
+          </div>
+          <div class="spec-track">
+            <div class="spec-line-bg"></div>
+            <div class="spec-dot" data-v="-2" onclick="pick(this)"></div>
+            <div class="spec-dot" data-v="-1" onclick="pick(this)"></div>
+            <div class="spec-dot" data-v="0"  onclick="pick(this)"></div>
+            <div class="spec-dot" data-v="1"  onclick="pick(this)"></div>
+            <div class="spec-dot" data-v="2"  onclick="pick(this)"></div>
+          </div>
+          <div class="spec-hint">
+            <span>← 左に近い</span>
+            <span>どちらでもない</span>
+            <span>右に近い →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ RESULT SCREEN ══════════ -->
+<div id="screen-result" class="screen"></div>
+
+<script>
+// ── DATA ──
+const Qs=[
+  {ax:1,t:"友人や知人と過ごす時間について、あなたはどちらに近いですか？",a:"友人と過ごすと元気になり、一人でいると物足りなさを感じる",b:"一人の時間で充電し、人と長く一緒にいると疲れを感じやすい"},
+  {ax:1,t:"チームプロジェクトでの自分の動き方は？",a:"みんなの意見を引き出し、議論を進めていく役回りが多い",b:"与えられた役割を着実にこなし、品質を上げることに集中する"},
+  {ax:1,t:"仕事での達成感はどちらに近いですか？",a:"チームや周囲の人が喜んでくれたとき",b:"自分の課題を解決し、質の高いアウトプットが出せたとき"},
+  {ax:1,t:"困難な状況に直面したとき、まず何をしますか？",a:"周りの人に相談し、みんなで解決策を探す",b:"まずデータや情報を集め、自分で解決策を考える"},
+  {ax:1,t:"初対面の人との関わり方は？",a:"積極的に話しかけ、相手のことを知ろうとする",b:"相手が話しかけてくれるまで待ち、様子を見てから関わる"},
+  {ax:2,t:"仕事の進め方について、あなたはどちらに近いですか？",a:"自分でイニシアティブを取り、積極的に前に出て進める",b:"上司やチームの方針に沿って、確実に実行することを優先する"},
+  {ax:2,t:"職場でのあなたの立ち位置は？",a:"チームをリードしたり、新しいことを提案したりする側に回ることが多い",b:"チームをサポートし、縁の下の力持ちとして貢献することが多い"},
+  {ax:2,t:"仕事でチャレンジする機会があったとき、あなたはどちらですか？",a:"リスクがあっても、新しいことに挑戦したい",b:"安定した方法で確実に成果を出したい"},
+  {ax:2,t:"会議で意見が分かれたとき、あなたはどうしますか？",a:"自分の意見を積極的に発信し、議論を主導する",b:"他の人の意見をよく聞き、場の調整役を担う"},
+  {ax:2,t:"仕事での役割について、あなたはどちらが合っていると感じますか？",a:"新しいプロジェクトを立ち上げ、推進する役割",b:"既存のプロジェクトを安定させ、継続させる役割"},
+  {ax:3,t:"仕事とプライベートのバランスについて、あなたはどちらに近いですか？",a:"プライベートの時間は大切にしたい。仕事はその中でしっかりこなす",b:"仕事に没頭することで充実感を得る。プライベートは後回しになっても構わない"},
+  {ax:3,t:"残業が続く状況が生じた場合、あなたはどう感じますか？",a:"できれば避けたい。プライベートの時間が削られるのはストレスだ",b:"成果のためなら仕方ない。やり切ることにやりがいを感じる"},
+  {ax:3,t:"休日の過ごし方について、あなたはどちらに近いですか？",a:"仕事から完全に離れ、趣味や家族・友人との時間を楽しむ",b:"仕事に関する勉強や情報収集をするなど、仕事につながることを楽しむ"},
+  {ax:3,t:"理想の働き方に最も近いのはどちらですか？",a:"定時退社が基本。アフター5も充実させたい",b:"仕事に没頭し、成果や成長を最大化させたい"},
+  {ax:3,t:"仕事のモチベーションの源泉はどちらに近いですか？",a:"心身のバランスを保ちながら、長く安定して働き続けること",b:"高い目標を掲げ、思い切り仕事に打ち込んで大きな成果を出すこと"},
+  {ax:4,t:"仕事の覚え方について、あなたはどちらに近いですか？",a:"自分でやりながら覚えるのが好き。試行錯誤して習得したい",b:"先輩や上司に教わりながら、体系的に学んで習得したい"},
+  {ax:4,t:"新しい仕事に就いたとき、あなたはどうしますか？",a:"とりあえず自分でやってみて、課題があれば修正する",b:"まず先輩に聞いたり、マニュアルを読んで全体を理解してから動く"},
+  {ax:4,t:"仕事での成長環境について、理想に近いのはどちらですか？",a:"裁量を与えてもらい、自分でトライ＆エラーを繰り返して成長したい",b:"手厚い研修や指導のもとで、着実にスキルアップしたい"},
+  {ax:4,t:"業務の改善についてのあなたの姿勢は？",a:"自分でやり方を工夫し、より良い方法を探して実行する",b:"組織のルールや先輩のやり方を踏まえながら、着実に改善する"},
+  {ax:4,t:"仕事のスタイルとして、あなたはどちらに近いですか？",a:"自分でリサーチし、自分の判断で動くことが得意",b:"上司や先輩と相談しながら、丁寧に進めることが得意"}
+];
+
+const AX=[null,
+  {l:"対人",r:"対課題",ca:"#3b82f6",cb:"#a855f7"},
+  {l:"攻め",r:"支え",ca:"#f97316",cb:"#10b981"},
+  {l:"ライフ重視",r:"ワーク重視",ca:"#22d3ee",cb:"#ef4444"},
+  {l:"自走型",r:"育成型",ca:"#f59e0b",cb:"#8b5cf6"},
+];
+
+const TD={
+  A1:{name:"オンオフのエース",icon:"⚡",tag:"人を巻き込み、自分のペースで成果を出す",kw:["切り替え上手","巻き込み力","メリハリ"],jobs:["営業","広告営業","SNSマーケ"],per:"人と関わることにエネルギーを感じ、自分から周りに働きかけるのが自然にできるタイプ。同時に、プライベートの時間も大事にしたいという軸を持っていて、メリハリのある働き方を好みます。指示を待つより自分で判断して動く方が力を発揮します。",str:"切り替えの速さと、人を惹きつけるコミュニケーション力。短時間で成果を出す集中力も強み。",com:"初対面でも自然に会話をリードできる。ただし、プライベートの境界線はしっかり引くタイプ。",sts:"裁量がなく、細かく管理される環境。プライベートの時間を侵食されること。",grw:"「余裕がある」は強みだが、ときには全力で没頭する経験が視野を広げるかも。",why:"人との信頼関係を武器にしつつ自分のペースで成果を出せる営業職や、SNSマーケティングのように裁量を持って人と接する仕事にフィットします。",desc:"人との関わりで成果を出しつつ、プライベートも大事に。自分のペースで裁量を持って働くスタイル。",good:["A2","B1","C1"],gR:"A2の温かさが補完し、B1の気配りと自然にシナジー。C1の発想力との協業も新鮮な刺激に。",bad:["D4","B4"],bR:"D4のコツコツ型とはペース感が合いにくい。B4の真面目さがメリハリ型には窮屈に映ることも。"},
+  A2:{name:"あったかリーダー",icon:"🌟",tag:"人望で自然とチームをまとめる安定リーダー",kw:["安心感","傾聴力","育成型リーダー"],jobs:["営業","人材紹介","広告営業"],per:"周囲の人への関心が高く、チームの雰囲気を良くするのが上手なタイプ。前に出ることにも抵抗がなく、人望で自然とリーダーに推されることも。しっかりした研修やサポートがある環境だと安心して力を出せます。",str:"人の気持ちを汲み取る力と、安心感のあるリーダーシップ。「この人についていきたい」と思わせる温かさ。",com:"相手の話をしっかり聞いてから自分の意見を伝える。対立を避けつつ、全員が納得する着地点を見つける。",sts:"人間関係の摩擦が続くとき。一人で重い責任を背負わされる環境。",grw:"温かさは最強の武器。そこに「時には厳しく伝える勇気」を加えると、さらに信頼が厚くなる。",why:"人への関心の深さと安定したリーダーシップは、営業・人材紹介・教育系の仕事と相性抜群。",desc:"人への温かさと安定したリーダーシップが武器。研修充実の環境でチームを率いるタイプ。",good:["A1","B2","B1"],gR:"A1のスピード感を包む温かさが最高のバランス。B2の調停力と合わされば最強のチームに。",bad:["C3","D3"],bR:"C3のスピードとの噛み合いに課題。D3の冷静な判断スタイルとは価値観で摩擦が生じやすい。"},
+  A3:{name:"全力キャプテン",icon:"🔥",tag:"圧倒的な熱量でチームを引っ張る",kw:["熱量","推進力","没頭型リーダー"],jobs:["営業","広告営業","PR"],per:"仕事に全力で向き合い、自分から旗を立ててチームを引っ張るタイプ。熱量が周囲を動かし、気づけばリーダーになっていることも。プライベートより仕事で結果を出すことに充実感を覚え、裁量を持って自分のペースで突き進むのが得意です。",str:"誰よりも高い熱量とスピード感。人を巻き込み、チームを熱くする推進力。",com:"自分のビジョンを熱く語って周囲を動かす。時に直球すぎるが、それが信頼の源泉でもある。",sts:"やる気のない環境。上からの過度な制限でスピードを落とされるとき。",grw:"突破力は最強。そこに「チームの疲弊を察する」アンテナを加えると、長期戦でも勝てるリーダーになる。",why:"この推進力と熱量は、成果直結型の営業やPRで真価を発揮。裁量のある環境でスピード感を持って動ける仕事が最適です。",desc:"仕事への熱量と推進力が飛び抜けたタイプ。裁量を持ってチームを引っ張り、スピード感で成果を出す。",good:["A4","B3","C3"],gR:"A4の誠実さが熱量を支える。B3の裏方力と合わせれば無敵。C3と組めば最強の突破コンビに。",bad:["D2","B2"],bR:"D2の正確性重視とはペースが合わない。B2の穏やかさがA3にはブレーキに感じることも。"},
+  A4:{name:"熱血プレイヤー",icon:"💪",tag:"仲間のために全力を尽くすひたむきさ",kw:["誠実","献身","チームワーク"],jobs:["営業","人材紹介","カスタマーサクセス"],per:"仲間や顧客のために全力を尽くす、ひたむきな熱血タイプ。自分が前に出るよりチームで勝つことに喜びを感じ、仕事への情熱と誠実さで周囲の信頼を勝ち取ります。",str:"誠実さとひたむきな努力。「この人のためなら」と思わせる人間的な魅力。",com:"相手の気持ちに寄り添い、丁寧に言葉を選ぶ。信頼関係を大事にする。",sts:"チームの仲間が疲弊しているのに何もできないとき。不誠実な環境に置かれたとき。",grw:"誠実さは最大の武器。そこに「自分のアイデアを積極的に出す」姿勢が加わると、次のステージへ。",why:"この誠実さと顧客への献身は、顧客折衝の多い営業やカスタマーサクセスで活きます。",desc:"仲間への誠実さと情熱が武器。チームで勝つことに喜びを感じ、先輩から学びながら成長するタイプ。",good:["A3","B4","B2"],gR:"A3の熱量の下で誠実さが輝く。B4の誠実さと最高にシンクロ。B2の優しさに安心して力を出せる。",bad:["D1","C1"],bR:"D1のドライな判断スタイルとは価値観が違う。C1の発想力優先のアプローチとは動き方が合いにくい。"},
+  B1:{name:"ナチュラルケアリスト",icon:"🌿",tag:"空気を読んで静かに場を守る",kw:["共感力","自然体","場の守護者"],jobs:["HR・人事","カスタマーサポート","教育"],per:"人の感情や場の空気を敏感に察知し、自然体でそっと支えるタイプ。派手に動くより、誰かが困っているときに静かに手を差し伸べることに充実感を覚えます。",str:"共感力と、人を安心させる空気感。気づかないうちに場を守っている縁の下の力持ち。",com:"聞き上手で、相手が話しやすい雰囲気を自然に作る。主張は控えめだが、信頼は厚い。",sts:"感情的な対立が続く環境。プライベートを侵食されること。",grw:"共感力は宝。そこに「自分の意見をしっかり伝える練習」を積むと、影響力が大きく広がる。",why:"この共感力と人への細やかな気配りは、HRや人事、教育、カスタマーサポートで真価を発揮します。",desc:"共感力と場を読む力で静かにチームを守る。人への気配りを活かした職場でのびのびと輝くタイプ。",good:["A1","B2","D1"],gR:"A1のリード力を陰から支える最高のコンビ。B2の調停力と合わさればチームの安全基地に。",bad:["C3","A3"],bR:"C3のスピード感には疲弊しがち。A3の熱量が強すぎてB1には重荷になることも。"},
+  B2:{name:"やさしい調停者",icon:"🌸",tag:"対立を和らげ皆が笑える着地を作る",kw:["調整力","優しさ","場のまとめ役"],jobs:["HR・人事","営業","カスタマーサクセス"],per:"対立や緊張を和らげ、全員が納得できる着地点を作るのが得意なタイプ。感情的な場面でも冷静に全体を見渡し、優しさで橋渡し役を担います。",str:"調整力と、全員が笑える着地を作る設計力。争いを穏やかに収める圧倒的な優しさ。",com:"誰の話もしっかり聞いて、全員が納得できる言葉を選ぶ。対立を恐れず、穏やかに仲裁する。",sts:"長期的な人間関係の摩擦。「どちらかを選べ」と迫られる二択の場面。",grw:"調整力は唯一無二。そこに「より早い決断」を組み合わせると、リーダーとして一段上に行ける。",why:"この調整力と優しさは、HRや採用、チームの潤滑油が必要な職場で大きな価値を発揮します。",desc:"優しさと調整力でチームを和やかにまとめる。対立を乗り越えて全員が笑える職場を作るタイプ。",good:["B1","A2","B4"],gR:"B1の共感力と合わされば最強のチームケア。A2のリード力を優しさで補完できる。",bad:["C3","D3"],bR:"C3のスピード感とは相性が難しい。D3のドライな判断スタイルとは価値観の摩擦がある。"},
+  B3:{name:"縁の下の力持ち",icon:"🔆",tag:"信頼されるサポートで組織を安定させる",kw:["実行力","縁の下","仕事への情熱"],jobs:["営業事務","プロジェクト管理","カスタマーサポート"],per:"仕事への情熱を持ちながらも、前に出るよりチームの動きを支えることに喜びを感じるタイプ。段取りや調整で組織の安定を担います。",str:"段取り力と、縁の下でチームを支える実行力。「なければ困る」と言われる存在感。",com:"控えめだが、言葉には重みがある。必要なときに的確なフォローを入れる。",sts:"自分の動きが評価されないとき。雑然とした段取りのない環境。",grw:"実行力は最強の武器。そこに「自分の貢献を言語化して伝える」スキルが加わると、評価が格段に上がる。",why:"この段取り力と縁の下の実行力は、プロジェクト管理や営業事務、チームの動きを支える仕事で真価を発揮します。",desc:"仕事への情熱と裁量を持ちつつ、チームを縁の下で支える。段取り力と実行力が武器のタイプ。",good:["A3","D3","B4"],gR:"A3の突破力を支える最高のサポーター。D3の戦略を実行に移すパートナーに。",bad:["A1","C1"],bR:"A1のメリハリ型はB3の縁の下スタイルとペースが合わないことも。"},
+  B4:{name:"誠実なフォロワー",icon:"🎖️",tag:"誠実さで組織の信頼を積み重ねる",kw:["誠実","堅実","信頼蓄積"],jobs:["HR・人事","営業事務","総務"],per:"誠実さと堅実さで組織の信頼を一つひとつ積み重ねるタイプ。派手さよりも正確さ、スピードよりも丁寧さを大事にし、先輩から着実にスキルを吸収して成長します。",str:"誠実さと、長期的な信頼関係を築く力。「あの人に任せれば大丈夫」という安心感。",com:"丁寧で誠実なコミュニケーション。約束を守り、言葉に一貫性がある。",sts:"不誠実な環境。自分の仕事が軽く扱われるとき。",grw:"誠実さは長期的な武器。そこに「スピードを意識する」意識が加わると、さらに市場価値が上がる。",why:"この誠実さと丁寧さは、HRや人事、総務のように組織を陰で支える仕事に最適。",desc:"誠実さと堅実さで組織を支える。長期的な信頼を積み重ね、先輩から学びながら着実に成長するタイプ。",good:["B2","D2","A4"],gR:"B2の優しさと最高の相性。D2の正確さと切磋琢磨できる。A4の誠実さと深く通じ合う。",bad:["A3","C3"],bR:"A3のスピード重視とはペースが違う。C3の「前例なし」アプローチは慎重派のB4には不安要素。"},
+  C1:{name:"アイデアバスター",icon:"🔭",tag:"発想と行動力で新市場を切り拓く",kw:["発想力","行動力","開拓精神"],jobs:["新規事業","マーケティング","コンサル"],per:"次々とアイデアが浮かび、自分から動いて新しい道を切り拓くタイプ。対人よりも課題解決に燃え、データや発想で突破口を開きます。",str:"発想力と行動力。誰も思いつかないアプローチで壁を突破する開拓精神。",com:"アイデアベースで話す。論理的だが、時に飛躍しすぎて相手がついてこないことも。",sts:"前例踏襲のみの環境。アイデアを出しても却下され続けるとき。",grw:"発想力は最強の武器。そこに「相手のペースに合わせる」丁寧さを加えると、影響力が圧倒的に広がる。",why:"この発想力と行動力は、新規事業開発やマーケティング、コンサルティングで真価を発揮。",desc:"発想と行動力で新しい地平を切り拓く。課題解決型の仕事で自分のペースに大きな裁量を持って動くタイプ。",good:["A1","D1","C2"],gR:"A1の人間力と合わされば最強。D1の分析が発想に説得力を与える。",bad:["B4","D4"],bR:"B4の慎重さとはスピードが合わない。D4のコツコツ型とは動き方の根本が違う。"},
+  C2:{name:"品質追求型イノベーター",icon:"🛡️",tag:"クオリティにこだわりながら変化を起こす",kw:["品質","革新","丁寧な変革"],jobs:["マーケティング","コンサル","商品企画"],per:"変化を起こしながらも品質を妥協しない、こだわり派のイノベーター。課題解決の発想力を持ちながら、先輩や組織から学ぶことで着実にスキルを積み上げます。",str:"革新性と品質へのこだわりの両立。「速くて正確」なアウトプットで信頼を勝ち取る。",com:"論理的で丁寧。アイデアを「なぜ？」から説明し、相手を納得させるのが上手。",sts:"品質を無視したスピード偏重な環境。雑なアウトプットが当たり前の職場。",grw:"品質と革新性の両立は稀有な才能。そこに「スピードと割り切り」を加えると市場価値が急上昇する。",why:"この品質へのこだわりと革新性は、マーケティングや商品企画、コンサルで真価を発揮。",desc:"変革と品質の両立を目指す稀有なタイプ。仕事への集中度が高く、こだわりのアウトプットで周囲を唸らせる。",good:["C1","D2","C4"],gR:"C1の発想に品質を加えて最強コンビに。D2の正確さと切磋琢磨できる。",bad:["A3","B1"],bR:"A3のスピード重視とは品質観が違う。B1の慎重さが変革のペースを落とすことも。"},
+  C3:{name:"爆進チェンジメーカー",icon:"🌋",tag:"前例なき道を全力で突き進む",kw:["突破力","前例なし","ビジョン型"],jobs:["新規事業","起業","コンサル"],per:"前例のない道を全力で切り拓く、無敵の突破力を持つタイプ。仕事への没頭度は誰よりも高く、自分の発想とスピードで組織を前に進めます。",str:"圧倒的な突破力とスピード。「そんなの無理」を「やってみよう」に変える行動力。",com:"自分のビジョンを熱く語って周囲を動かす。時に独走気味になるが、結果がついてくる。",sts:"稟議だらけで動けない環境。前例重視で新しいことを否定される職場。",grw:"突破力は唯一無二。そこに「チームの温度を確認する」習慣を加えると、長期的な成功者になれる。",why:"この突破力と前例なき発想は、新規事業開発や起業、コンサルティングで真価を発揮。",desc:"前例なき道を全力で突き進む。仕事への没頭度が高く、発想とスピードで組織を前に進めるタイプ。",good:["A3","D3","C4"],gR:"A3の巻き込み力と合わされば最強。D3の冷静な制御が暴走を防ぐ。",bad:["B2","B1"],bR:"B2の穏やかさとはスピード感が合わない。B1の慎重さがC3にはブレーキに感じる。"},
+  C4:{name:"のめり込みビルダー",icon:"🏗️",tag:"技術を極める情熱の職人",kw:["集中力","探究心","師弟関係"],jobs:["エンジニア","コンサル","データマーケ・CRM"],per:"ものづくりや課題解決に深くのめり込む職人気質。仕事に情熱を注ぎ、技術やスキルをとことん追求したいタイプです。",str:"集中力と技術への探究心。一度ハマると誰よりも深く掘り下げる。",com:"技術的な話題では饒舌になるが、雑談は苦手な面も。信頼した相手には深く心を開く。",sts:"表面的にしか取り組めない環境。技術を軽視する文化。",grw:"のめり込む力を活かしつつ「全体像を見る」視点を意識すると、リードエンジニアへの道が開ける。",why:"この技術への情熱と学ぶ姿勢は、大手企業の技術職や研究職、データ系のマーケ職で真価を発揮。",desc:"ものづくりに情熱を注ぎつつ、組織的なサポートの中で成長。大手の技術職や研究職にも向く。",good:["C3","B3","C2"],gR:"C3の推進力の下で技術を極められる。B3の裏方力と深いレベルで協業。",bad:["A1","A3"],bR:"A1のメリハリ型は深掘り派のC4には表面的に映る。A3の熱量は対人ベースでC4とは方向が違う。"},
+  D1:{name:"冷静なブレイン",icon:"🧊",tag:"データとロジックで組織を支える頭脳",kw:["論理的思考","俯瞰","冷静"],jobs:["経営企画","データアナリスト","社内SE"],per:"データとロジックで物事を考えるのが得意なタイプ。派手に前に出るより、分析と戦略で組織を支えることに充実感を覚えます。",str:"論理的思考力と、感情に流されない冷静さ。複雑な問題を構造的に整理する力。",com:"事実ベースで話す。感情論が飛び交う場では一歩引いて「で、ファクトは？」と問いかけるタイプ。",sts:"感情的な議論に巻き込まれるとき。データなしに意思決定される環境。",grw:"ロジックは最強の武器。ここに「相手の感情を動かす伝え方」が加わると、影響力が飛躍的に増す。",why:"この分析力と俯瞰力は、経営企画やデータアナリスト、社内SEのように組織の意思決定を裏から支える仕事にフィットします。",desc:"データやロジックで組織を支える。プライベートも大事にしつつ、自分のペースで分析・改善を回す。",good:["B1","C1","D2"],gR:"B1の気配りが冷静さを和らげる。C1の発想力に分析で道筋を。D2の正確さとは最高の分析チーム。",bad:["A4","A3"],bR:"A4の感情重視とは価値観が違う。A3の熱量ベースの判断はD1にはノイズに感じる。"},
+  D2:{name:"きっちり参謀",icon:"📐",tag:"正確さとルールで組織の最後の砦に",kw:["精緻","正確性","堅実"],jobs:["経理・財務","データアナリスト","法務"],per:"正確さと丁寧さが武器のタイプ。数字やルールに強く、曖昧なことをきちんと整理するのが得意です。",str:"ミスを見逃さない精緻さと、ルール・手順を守り切る確実性。「最後の砦」のような存在。",com:"正確で丁寧な報告が得意。口頭より文書の方が真価を発揮する。曖昧な指示が苦手。",sts:"ルールが曖昧でカオスな環境。大雑把な人と組むとき。",grw:"正確さを保ちつつ「大局観」も身につけると、参謀からリーダーへの道が見えてくる。",why:"この精緻さと安定志向は、ミスが許されない経理・財務や法務、正確なデータ分析が求められるアナリスト職に最適。",desc:"数字やデータに強く、充実した研修のもとで着実に専門性を高めたい。安定した環境を好む。",good:["D1","B2","B4"],gR:"D1とは最強の分析タッグ。B2の温かさに安心して力を発揮。",bad:["A3","C3"],bR:"A3のスピード感は正確性重視のD2にはストレス。C3の「前例なし」が慎重派のD2には不安要素。"},
+  D3:{name:"鉄壁コントローラー",icon:"🏰",tag:"冷静な判断でプレッシャーに立ち向かう",kw:["冷静","胆力","制御力"],jobs:["経営企画","コンサル","社内SE"],per:"仕事にのめり込み、データとロジックで組織の基盤を固めるタイプ。感情より事実で判断し、冷静に全体を制御する力があります。",str:"冷静な判断力と、プレッシャー下でもブレない胆力。組織の根幹を担える器の大きさ。",com:"端的で論理的。無駄を嫌い、要点だけを伝える。部下には厳しいが、信頼は厚い。",sts:"権限が与えられず、裁量がないとき。非論理的な意思決定が横行する環境。",grw:"制御力に「人を育てる」視点を加えると、経営者としての器がさらに広がる。",why:"この冷静な制御力と仕事への没頭は、経営の根幹を支える経営企画や、論理で課題を解くコンサルで力を発揮。",desc:"仕事にのめり込み、データとロジックで組織の土台を固める。裁量を持って経営を支えるタイプ。",good:["C3","B3","D1"],gR:"C3の突破力を冷静に制御する最強コンビ。B3の裏方力と戦略が噛み合う。",bad:["A2","B2"],bR:"A2の感情ベースの判断はD3には非効率に映る。B2の穏やかさがスピード感を求めるD3にはもどかしい。"},
+  D4:{name:"コツコツマイスター",icon:"⚙️",tag:"品質に妥協しない職人の矜持",kw:["忍耐力","品質","職人魂"],jobs:["経理・財務","法務","品質管理"],per:"地道な作業を丁寧にやり抜く粘り強さがあるタイプ。仕事に全力で向き合い、先輩から技を吸収して確実にスキルを高めていきます。",str:"忍耐力と、品質に妥協しない職人魂。「この人が最終チェックしたなら大丈夫」という信頼。",com:"寡黙だが、専門分野の話になると頼れるアドバイザーに。言葉少なだが重みがある。",sts:"雑に仕事を進めることを求められるとき。自分のペースを乱されること。",grw:"品質へのこだわりは唯一無二の強み。ここに「速さ」を少しずつ加えると市場価値が急上昇する。",why:"この緻密さと粘り強さは、正確さが命の経理・財務や法務、品質管理で真価を発揮。",desc:"仕事に全力で向き合い、先輩のもとで丁寧にスキルを磨く。専門職で真価を発揮するタイプ。",good:["B4","D2","C2"],gR:"B4の誠実さと最高の相性。D2の正確さと切磋琢磨。",bad:["A1","C3"],bR:"A1のメリハリ型はコツコツ派のD4には表面的に映る。C3のスピード重視は品質重視のD4にはストレス。"}
+};
+
+const CD={
+  "IT / Web":["サイバーエージェント","DeNA","メルカリ","リクルート","LINE Yahoo"],
+  "広告 / メディア":["電通","博報堂","サイバーエージェント","朝日新聞","集英社"],
+  "金融":["三菱UFJ銀行","野村証券","SBI証券","三井住友カード","東京海上日動"],
+  "コンサル":["マッキンゼー","BCG","アクセンチュア","デロイト","PwC"],
+  "メーカー":["ソニー","トヨタ","パナソニック","資生堂","P&G Japan"],
+  "商社":["三菱商事","伊藤忠商事","三井物産","住友商事","丸紅"]
+};
+
+// ── STATE ──
+let curQ=0,scores={1:0,2:0,3:0,4:0},ans=[],selectedIndustries=[],transitioning=false;
+
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+
+function toggleInd(el){
+  el.classList.toggle('sel');
+  selectedIndustries=Array.from(document.querySelectorAll('.ind-chip.sel')).map(e=>e.dataset.ind);
+  document.getElementById('ind-next').classList.toggle('disabled',selectedIndustries.length===0);
+}
+
+function startQuiz(){
+  curQ=0;scores={1:0,2:0,3:0,4:0};ans=[];
+  renderQ();showScreen('screen-quiz');
+}
+
+function renderQ(){
+  const q=Qs[curQ];
+  const pct=Math.round(((curQ+1)/Qs.length)*100);
+  document.getElementById('prog-fill').style.width=Math.max(5,pct)+'%';
+  document.getElementById('prog-text').textContent=`Q${curQ+1} / ${Qs.length}`;
+  document.getElementById('axis-text').textContent=`軸${q.ax}：${AX[q.ax].l} vs ${AX[q.ax].r}`;
+  document.getElementById('q-num').textContent=`Q${curQ+1}`;
+  document.getElementById('q-axis').textContent=`軸${q.ax}：${AX[q.ax].l} or ${AX[q.ax].r}`;
+  document.getElementById('q-text').textContent=q.t;
+  document.getElementById('q-a').textContent=q.a;
+  document.getElementById('q-b').textContent=q.b;
+  document.querySelectorAll('.spec-dot').forEach(d=>d.classList.remove('sel'));
+  document.getElementById('back-btn').style.display=curQ>0?'inline-flex':'none';
+  const card=document.getElementById('q-card');
+  card.classList.remove('fade-in');void card.offsetWidth;card.classList.add('fade-in');
+}
+
+function pick(el){
+  if(transitioning)return;transitioning=true;
+  const q=Qs[curQ],v=parseInt(el.dataset.v);
+  document.querySelectorAll('.spec-dot').forEach(d=>d.classList.remove('sel'));
+  el.classList.add('sel');
+  scores[q.ax]+=v;ans[curQ]=v;
+  setTimeout(()=>{
+    curQ++;transitioning=false;
+    if(curQ<Qs.length){renderQ();}
+    else{document.getElementById('prog-fill').style.width='100%';setTimeout(()=>showResult(),400);}
+  },480);
+}
+
+function goBack(){
+  if(curQ<=0)return;
+  curQ--;scores[Qs[curQ].ax]-=ans[curQ];ans[curQ]=undefined;renderQ();
+}
+
+function getCode(){
+  const h=scores[1]>=0,a=scores[2]>=0;
+  const cat=h?(a?'A':'B'):(a?'C':'D');
+  const l=scores[3]>=0,s=scores[4]>=0;
+  const sub=l?(s?1:2):(s?3:4);
+  return cat+sub;
+}
+
+function cImg(code,sz=48){return `<img src="images/chars/${code.toLowerCase()}.png" alt="${code}" style="width:${sz}px;height:${sz}px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.7));">`;}
+
+function showResult(){
+  const code=getCode(),t=TD[code];
+  const inds=selectedIndustries.length>0?selectedIndustries:Object.keys(CD);
+
+  // Stat bars
+  let axH='';
+  [1,2,3,4].forEach(i=>{
+    const ax=AX[i],sc=scores[i];
+    const pct=Math.round(((10-sc)/20)*100);
+    const str=Math.min(100,Math.round((Math.abs(sc)/10)*100));
+    const isA=sc>=0;
+    const col=isA?ax.ca:ax.cb;
+    const lbl=sc===0?'バランス型':(isA?ax.l:ax.r);
+    axH+=`<div class="stat-row">
+      <div class="stat-pair"><span class="stat-lbl">${ax.l}</span><span class="stat-lbl">${ax.r}</span></div>
+      <div class="stat-track"><div class="stat-center"></div><div class="stat-marker" style="left:${pct}%;background:${col};border-color:${col};box-shadow:0 0 10px ${col}88;"></div></div>
+      <div class="stat-result" style="color:${col}">${lbl}　${str}%</div>
+    </div>`;
+  });
+
+  // Compat
+  let cmH='';
+  if(t.good?.length){
+    cmH+=`<div class="panel fade-in"><div class="panel-title">相性の良いタイプ</div>`;
+    t.good.forEach(g=>{const gt=TD[g];cmH+=`<div class="compat-item">${cImg(g,56)}<div class="compat-badge good">${g}</div><div class="compat-info"><h4>${gt.icon} ${gt.name}</h4><p>${gt.tag}</p></div></div>`;});
+    cmH+=`<div class="narration" style="margin-top:10px;font-size:.78rem;">${t.gR}</div></div>`;
+  }
+  if(t.bad?.length){
+    cmH+=`<div class="panel fade-in"><div class="panel-title">注意が必要なタイプ</div>`;
+    t.bad.forEach(b=>{const bt=TD[b];cmH+=`<div class="compat-item">${cImg(b,56)}<div class="compat-badge bad">${b}</div><div class="compat-info"><h4>${bt.icon} ${bt.name}</h4><p>${bt.tag}</p></div></div>`;});
+    cmH+=`<div class="narration" style="margin-top:10px;font-size:.78rem;">${t.bR}</div></div>`;
+  }
+
+  // Companies
+  let coH='';
+  inds.forEach(ind=>{
+    const cos=CD[ind]||[];
+    coH+=`<div class="panel fade-in"><div class="panel-title">${ind} のおすすめ企業</div>`;
+    cos.forEach((c,i)=>{coH+=`<div class="co-item"><div class="co-rank">${i+1}</div><div class="co-info"><h4>${c}</h4><p>${ind}</p></div></div>`;});
+    coH+=`</div>`;
+  });
+
+  document.getElementById('screen-result').innerHTML=`
+    <div class="result-hero">
+      <div class="result-hero-lines"></div>
+      <div class="result-hero-inner">
+        <div class="result-announce">— キャリアタイプ 判明 —</div>
+        <img src="images/chars/${code.toLowerCase()}.png" class="result-char" alt="${code}">
+        <div class="result-code">${code}</div>
+        <div class="result-name">${t.icon} ${t.name}</div>
+        <div class="result-tagline">${t.tag}</div>
+        <div class="result-kws">${t.kw.map(k=>`<span class="result-kw">${k}</span>`).join('')}</div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="narration fade-in">${t.desc}</div>
+
+      <div class="panel fade-in">
+        <div class="panel-title">診断スコア</div>
+        ${axH}
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-title">性格タイプ詳細</div>
+        <div class="body-txt">${t.per}</div>
+        <div class="detail-sec" style="margin-top:16px;">
+          <div class="d-label d-strength">強み</div>
+          <div class="body-txt">${t.str}</div>
+        </div>
+        <div class="detail-sec">
+          <div class="d-label d-comm">コミュニケーション</div>
+          <div class="body-txt">${t.com}</div>
+        </div>
+        <div class="detail-sec">
+          <div class="d-label d-stress">ストレス源</div>
+          <div class="body-txt">${t.sts}</div>
+        </div>
+        <div class="detail-sec">
+          <div class="d-label d-growth">成長のヒント</div>
+          <div class="body-txt">${t.grw}</div>
+        </div>
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-title">向いている職種</div>
+        <div class="job-tags">${t.jobs.map(j=>`<div class="job-tag">${j}</div>`).join('')}</div>
+        <div class="body-txt">${t.why}</div>
+      </div>
+
+      ${cmH}
+      ${coH}
+
+      <div class="panel fade-in">
+        <div class="panel-title">結果をシェア</div>
+        <div class="share-grid">
+          <button class="sh-btn sh-x" onclick="shareX()">𝕏 シェア</button>
+          <button class="sh-btn sh-line" onclick="shareLINE()">LINE</button>
+          <button class="sh-btn sh-copy" onclick="copyResult()">コピー</button>
+        </div>
+      </div>
+
+      <button class="retry-btn" onclick="location.reload()">もう一度診断する</button>
+      <div style="height:50px"></div>
+    </div>`;
+
+  showScreen('screen-result');
+}
+
+function shareX(){const c=getCode(),t=TD[c];window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`私のキャリアタイプは【${c}：${t.icon} ${t.name}】でした！\n${t.tag}\n向いている職種：${t.jobs.join('、')}\n\n#就活キャリアタイプ診断 #16Types`)}`,'_blank');}
+function shareLINE(){const c=getCode(),t=TD[c];window.open(`https://line.me/R/msg/text/?${encodeURIComponent(`私のキャリアタイプは【${c}：${t.icon} ${t.name}】でした！向いている職種：${t.jobs.join('、')}`)}`,'_blank');}
+function copyResult(){const c=getCode(),t=TD[c];navigator.clipboard.writeText(`私のキャリアタイプは【${c}：${t.icon} ${t.name}】でした！\n${t.tag}\n向いている職種：${t.jobs.join('、')}\n${t.desc}`).then(()=>alert('コピーしました！'));}
+
+(function(){
+  const p=new URLSearchParams(window.location.search),tp=p.get('type');
+  if(tp&&TD[tp]){const c=tp[0],s=parseInt(tp[1]);scores[1]=(c==='A'||c==='B')?5:-5;scores[2]=(c==='A'||c==='C')?5:-5;scores[3]=(s===1||s===2)?5:-5;scores[4]=(s===1||s===3)?5:-5;showResult();}
+})();
+</script>
+</body>
+</html>
